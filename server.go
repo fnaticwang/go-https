@@ -56,7 +56,7 @@ func main() {
         },  
     }
     
-    log.Printf("About to listen on 10443.Go to https://127.0.0.1:10443")
+    log.Printf("About to listen on 10443.Go to https://127.0.0.1:8088")
     err = s.ListenAndServeTLS("server.crt", "server.key")
     if err != nil {
         log.Fatal(err)

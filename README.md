@@ -39,6 +39,17 @@ openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
 在执行第二步时
 Common Name (e.g. server FQDN or YOUR name) []: 这一项，是最后可以访问的域名，为了方便测试，写成 test.com
 
+如果想通过IP直接访问而不想通过域名，在创建服务端证书时：用如下语句：
+```
+openssl genrsa -out server.key 2048
+ 
+openssl req -new -key server.key -subj "/CN=192.168.1.10" -out server.csr
+ 
+echo subjectAltName = IP:192.168.1.10 > extfile.cnf
+ 
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out server.crt -days 5000
+```
+
 ### 第三步，生成服务器端证书和客户端证书
 
 服务器端需要向 CA 机构申请签名证书，在申请签名证书之前依然是创建自己的 CSR 文件
